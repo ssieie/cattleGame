@@ -15,7 +15,7 @@ function generateGameContent(size = 600) {
       const canvasEl = document.createElement("canvas");
       const $ = canvasEl.getContext("2d")!;
 
-      init(canvasEl, $, size, GAME_HEIGHT, 60, gameContent);
+      init(canvasEl, $, size, GAME_HEIGHT, 30, gameContent);
     })
     .catch((err) => {
       gameContent.innerHTML = err;

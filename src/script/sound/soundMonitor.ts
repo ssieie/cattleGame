@@ -38,11 +38,28 @@ function initSoundMonitor() {
   });
 }
 
-function updateSoundData(): Uint8Array | undefined {
+function getBassAndTreble(): number | undefined {
   if (analyser) {
     analyser.getByteFrequencyData(buffer);
-    return buffer;
+
+    // 低音区间
+    const bassRange = buffer.slice(0, 50);
+    const bass =
+      bassRange.reduce((sum, v) => sum + v, 0) / bassRange.length || 0;
+
+    // 高音区间（约 4kHz - 20kHz）
+    const trebleRange = buffer.slice(200, 255);
+    const treble =
+      trebleRange.reduce((sum, v) => sum + v, 0) / trebleRange.length || 0;
+
+    // 计算结果（调整 50 为中间值）
+    let result = 50 + (treble - bass) * 0.5; // 0.5 是缩放系数，可调整
+
+    // 限制 1 - 100 范围
+    result = Math.min(100, Math.max(1, result));
+
+    return Math.round(result);
   }
 }
 
-export { initSoundMonitor, updateSoundData };
+export { initSoundMonitor, getBassAndTreble };
