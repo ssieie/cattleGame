@@ -9,6 +9,8 @@ interface BehaviorTasksValueType<T> {
 
 interface RenderTargetInstancesFunc {
   draw: () => void;
+  // 角色移动更新
+  changeWalkShatus?: () => void;
 }
 
 export interface RenderTargetInstances {

@@ -47,12 +47,12 @@ class MapScene {
 
     /**
      * 定义透视参数：
-     * horizonY：消失线的位置（这里设在画布高度的 30%，即中上部）
+     * horizonY：消失线的位置（这里设在画布高度的 20%，即中上部）
      * roadBottomWidth：屏幕底部道路宽度（例如画布宽度的 80%）
      * roadTopWidth：屏幕远处（消失线）的道路宽度（不再为 0，这里设为画布宽度的 10%）
      * step：每次绘制的水平切片高度（单位：像素）
      */
-    const horizonY = this.h * 0.2;
+    const horizonY = this.h * 0.2; // 140
     const roadBottomWidth = this.w * 0.8;
     const roadTopWidth = this.w * 0.05;
     const step = 2;
@@ -69,8 +69,8 @@ class MapScene {
       const t = (y - horizonY) / (this.h - horizonY);
       // 道路宽度从 roadTopWidth 线性变化到 roadBottomWidth
       const roadWidth = roadTopWidth + t * (roadBottomWidth - roadTopWidth);
-      // 使道路水平居中
-      const dx = (this.w - roadWidth) / 2;
+      // 道路位置
+      const dx = (this.w - roadWidth) / 3;
 
       // 计算当前屏幕 y 对应的“世界距离”
       const worldDistance =
@@ -81,7 +81,7 @@ class MapScene {
 
       const properSy =
         (sy + this.roadImage.uri.height) % this.roadImage.uri.height;
-
+        
       // 计算下一个切片对应的世界距离，并得到纹理采样的高度
       const tNext = (y + step - horizonY) / (this.h - horizonY);
       const worldDistanceNext =

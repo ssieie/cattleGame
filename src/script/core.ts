@@ -1,4 +1,5 @@
 import MapScene from "./map/map.js";
+import Player from "./player/player.js";
 import Render, { RenderTargetInstances } from "./render/render.js";
 import { getBassAndTreble } from "./sound/soundMonitor.js";
 
@@ -6,10 +7,15 @@ let RenderInstance: Render | null = null;
 
 const instances: RenderTargetInstances = {
   Map: null,
+  Player: null,
 };
 
 function initMap(w: number, h: number, canvas: Canvaser) {
   instances.Map = new MapScene(w, h, canvas);
+}
+
+function initPlayer(w: number, h: number, canvas: Canvaser) {
+  instances.Player = new Player(w, h, canvas);
 }
 
 function initRender(fps = 30) {
@@ -30,6 +36,14 @@ function initRender(fps = 30) {
     },
     1000 / 0.1
   ); // 0.1 次/秒
+
+  // 人物行走更新速率
+  RenderInstance.addBehavior<void>(
+    "changeWalkShatus",
+    instances.Player!.changeWalkShatus?.bind(instances.Player) as () => void,
+    () => {},
+    1000 / 10
+  ); // 10 次/秒
 }
 
 export type Canvaser = {
@@ -58,6 +72,7 @@ export function init(
   target.appendChild(canvas.cvs);
 
   initMap(w, h, canvas);
+  initPlayer(w, h, canvas);
 
   initRender(fps);
 }

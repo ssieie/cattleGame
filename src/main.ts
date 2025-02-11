@@ -2,7 +2,7 @@ import { init } from "./script/core.js";
 import { initSoundMonitor } from "./script/sound/soundMonitor.js";
 
 const gameContent = document.getElementById("gameContent")!;
-const GAME_HEIGHT = 601;
+const GAME_HEIGHT = 700;
 
 function generateGameContent(size = 600) {
   initSoundMonitor()
